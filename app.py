@@ -1,7 +1,8 @@
 import streamlit as st
-st.write("NexTrip")
+st.title("✈️ Welcome to NexTrip: the app that allows to find the perfect destination ✈️")
 st.write("The place where you find your next destination")
 st.write("The right destination with the right budget and right travel time")
+st.write("Choose your criteria and find the perfect destination!")
 st.write("Personal data")
 st.text_input("Name")
 print("hello")
@@ -22,5 +23,3 @@ def get_temperature_from_meteo(lat, lon):
         return data["hourly"]["temperature_2m"][0]  # Get the first hourly temperature
     return None
 
-st.title("✈️ Welcome to NexTrip: the app that allows to find the perfect destination ✈️")
-st.write("Choose your criteria and find the perfect destination!")
