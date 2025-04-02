@@ -1,3 +1,4 @@
 import streamlit as st
-st.write("hooray we are connected")
-
+st.write("NexTrip")
+st.write("The place where you find your next destination")
+st.write("The right destination with the right budget and right travel time")
