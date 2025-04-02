@@ -5,11 +5,8 @@ st.write("The right destination with the right budget and right travel time")
 st.write("Choose your criteria and find the perfect destination!")
 st.title("Personal data")
 st.text_input("Name")
-print("hello")
 
-print("test1")
-print("pd")
-print
+
 # import streamlit as st
 import requests
 from math import radians, sin, cos, sqrt, atan2  # math formulas
