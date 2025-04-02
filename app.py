@@ -7,7 +7,7 @@ st.title("Personal data")
 st.text_input("Name")
 print("hello")
 
-
+print("test1")
 
 
 # import streamlit as st
