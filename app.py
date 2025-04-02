@@ -3,7 +3,7 @@ st.title("✈️ Welcome to NexTrip: the app that allows to find the perfect des
 st.write("The place where you find your next destination")
 st.write("The right destination with the right budget and right travel time")
 st.write("Choose your criteria and find the perfect destination!")
-st.subtitle("Personal data")
+st.title("Personal data")
 st.text_input("Name")
 print("hello")
 
