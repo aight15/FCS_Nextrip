@@ -18,6 +18,10 @@ st.write("Geburtsdatum:", month, year)
 
 #conclude personal data
 st.write("Hi", title, subtitle, "welcome to NexTrip!")
+st.write("Let's find the right destination for you")
+
+st.title("Vacation type")
+
 
 # import streamlit as st
 import requests
