@@ -1,12 +1,19 @@
 import streamlit as st
+
+#Create a Welcoming effect for the user
 st.title("✈️ Welcome to NexTrip: the app that allows to find the perfect destination ✈️")
 st.write("The place where you find your next destination")
 st.write("The right destination with the right budget and right travel time")
 st.write("Choose your criteria and find the perfect destination!")
+
+#enter the name and age
 st.title("Personal data")
 title = st.text_input("Vorname")
 subtitle = st.text_input("Name")
 st.write("Mein Name ist", title, subtitle)
+age= st.text_input ("Alter")
+st.write("Alter:", age)
+
 
 
 # import streamlit as st
