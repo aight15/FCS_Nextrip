@@ -14,12 +14,10 @@ subtitle = st.text_input("Name")
 #enter the age
 month=st.selectbox("Monat",("Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"),)
 year=st.selectbox("Jahr",("2007","2006","2005","2004","2003","2002","2001","2000","1999","1998","älter als 1998"),)
-
-#conclude personal data
-st.write("Mein Name ist", title, subtitle)
 st.write("Geburtsdatum:", month, year)
 
-
+#conclude personal data
+st.write("Hi", title, subtitle, "welcome to NexTrip!")
 
 # import streamlit as st
 import requests
