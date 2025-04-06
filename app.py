@@ -14,7 +14,7 @@ st.write("Mein Name ist", title, subtitle)
 st.write("Geburtsdatum")
 month=st.selectbox("Monat",("Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"),)
 year=st.selectbox("Jahr",("2007","2006","2005","2004","2003","2002","2001","2000","1999","1998","älter als 1998"),)
-st.write("Alter:", age)
+st.write("Alter:", month, year)
 
 
 
