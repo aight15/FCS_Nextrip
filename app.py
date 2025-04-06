@@ -4,7 +4,9 @@ st.write("The place where you find your next destination")
 st.write("The right destination with the right budget and right travel time")
 st.write("Choose your criteria and find the perfect destination!")
 st.title("Personal data")
-st.text_input("Name")
+title = st.text_input("Vorname")
+subtitle = st.text_input("Name")
+st.write("Mein Name ist", title, subtitle)
 
 
 # import streamlit as st
