@@ -1,0 +1,203 @@
+import streamlit as st
+import requests
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
+
+# Your direct Tripadvisor API key
+TRIPADVISOR_API_KEY = "CB34AB816D0E4C0F95A1B3044B76B181"
+
+# Configure the page
+st.set_page_config(page_title="Door-to-Door Travel App", layout="wide")
+
+# Cache geocoding for efficiency
+@st.cache_data
+def geocode_location(location_name):
+    geolocator = Nominatim(user_agent="door_to_door_travel_app")
+    location = geolocator.geocode(location_name)
+    if location:
+        return (location.latitude, location.longitude)
+    return None
+
+def get_tripadvisor_location_id(query):
+    """
+    Use the direct Tripadvisor API endpoint for location search.
+    Assumes the endpoint accepts:
+      - q: the search query,
+      - lang, units, and key.
+    """
+    url = "https://api.tripadvisor.com/api/partner/2.0/location/search"
+    params = {
+        "q": query,
+        "lang": "en_US",
+        "units": "km",
+        "key": TRIPADVISOR_API_KEY
+    }
+    try:
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            data = response.json()
+            # Look for a location with a valid 'location_id'
+            for item in data.get("data", []):
+                if "location_id" in item:
+                    return item["location_id"]
+                elif "result_object" in item and "location_id" in item["result_object"]:
+                    return item["result_object"]["location_id"]
+            return None
+        else:
+            st.error("Error fetching location id from Tripadvisor API. Status code: " + str(response.status_code))
+            return None
+    except Exception as e:
+        st.error("Exception occurred while fetching location id: " + str(e))
+        return None
+
+def get_tripadvisor_attractions(location_id, limit=50):
+    """
+    Retrieve attractions for the given location_id using the direct Tripadvisor API.
+    Assumes the endpoint is:
+      https://api.tripadvisor.com/api/partner/2.0/location/{location_id}/attractions
+    """
+    url = f"https://api.tripadvisor.com/api/partner/2.0/location/{location_id}/attractions"
+    params = {
+        "currency": "USD",
+        "lang": "en_US",
+        "units": "km",
+        "limit": limit,
+        "key": TRIPADVISOR_API_KEY
+    }
+    try:
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            data = response.json()
+            return data.get("data", [])
+        else:
+            st.error("Error fetching attractions from Tripadvisor API. Status code: " + str(response.status_code))
+            return []
+    except Exception as e:
+        st.error("Exception occurred while fetching attractions: " + str(e))
+        return []
+
+def matches_activity_type(attraction, activity_type):
+    """
+    Check if the attraction matches the desired activity type.
+    The function searches in the 'subcategory' field if available,
+    and also in the attraction 'name' as a fallback.
+    """
+    subcategories = attraction.get("subcategory", [])
+    for sub in subcategories:
+        if activity_type.lower() in sub.get("name", "").lower():
+            return True
+    if activity_type.lower() in attraction.get("name", "").lower():
+        return True
+    return False
+
+# -------------------------------
+# Landing Page (Input Form)
+# -------------------------------
+def landing_page():
+    st.title("Welcome to the Door-to-Door Travel Planner")
+    st.write(
+        "Plan your trip by entering your departure location, choosing an activity type, "
+        "selecting your travel budget and mode, and specifying your departure time. "
+        "We will help you find nearby attractions that match your preferences using the Tripadvisor API."
+    )
+    
+    with st.form("travel_form"):
+        departure_location = st.text_input("Departure Location (city or address):")
+        activity_type = st.selectbox("Select Activity Type", ["cultural", "sport", "nature"])
+        budget = st.selectbox("Select Your Budget", ["Low", "Medium", "High"])
+        travel_mode = st.selectbox("Select Travel Mode", ["Train", "Plane"])
+        departure_time = st.time_input("Departure Time")
+        
+        submitted = st.form_submit_button("Plan My Trip")
+        if submitted:
+            st.session_state.departure_location = departure_location
+            st.session_state.activity_type = activity_type
+            st.session_state.budget = budget
+            st.session_state.travel_mode = travel_mode
+            st.session_state.departure_time = departure_time
+            st.session_state.form_submitted = True
+            st.experimental_rerun()
+
+# -------------------------------
+# Results Page (Trip Itinerary)
+# -------------------------------
+def results_page():
+    st.title("Your Trip Itinerary")
+    
+    # Retrieve user inputs from session state
+    departure_location = st.session_state.get("departure_location")
+    activity_type = st.session_state.get("activity_type")
+    budget = st.session_state.get("budget")
+    travel_mode = st.session_state.get("travel_mode")
+    departure_time = st.session_state.get("departure_time")
+    
+    st.write("### Your Travel Details")
+    st.write(f"**Departure Location:** {departure_location}")
+    st.write(f"**Activity Type:** {activity_type}")
+    st.write(f"**Budget:** {budget}")
+    st.write(f"**Travel Mode:** {travel_mode}")
+    st.write(f"**Departure Time:** {departure_time}")
+    
+    # Geocode the departure location to get coordinates
+    location_coords = geocode_location(departure_location)
+    if location_coords:
+        st.write(f"**Location Coordinates:** {location_coords}")
+        
+        # Determine the maximum travel distance (in km) based on travel mode and budget
+        thresholds = {
+            ("Train", "Low"): 300,
+            ("Train", "Medium"): 500,
+            ("Train", "High"): 800,
+            ("Plane", "Low"): 500,
+            ("Plane", "Medium"): 1000,
+            ("Plane", "High"): 2000
+        }
+        max_distance_km = thresholds.get((travel_mode, budget), 500)
+        st.write(f"Searching for '{activity_type}' activities within **{max_distance_km} km**...")
+        
+        # Get the Tripadvisor location ID for the departure query
+        location_id = get_tripadvisor_location_id(departure_location)
+        if location_id:
+            attractions = get_tripadvisor_attractions(location_id, limit=50)
+            if attractions:
+                st.subheader("Activities Matching Your Criteria:")
+                filtered_attractions = []
+                for attr in attractions:
+                    attr_lat = attr.get("latitude")
+                    attr_lon = attr.get("longitude")
+                    if attr_lat and attr_lon:
+                        # Calculate distance from departure location to the attraction
+                        distance = geodesic(location_coords, (float(attr_lat), float(attr_lon))).km
+                        if distance <= max_distance_km and matches_activity_type(attr, activity_type):
+                            filtered_attractions.append((attr.get("name", "No name"), round(distance, 2)))
+                
+                if filtered_attractions:
+                    for name, dist in filtered_attractions:
+                        st.write(f"- **{name}** (Distance: {dist} km)")
+                else:
+                    st.write("No attractions found matching your criteria. Please adjust your filters and try again.")
+            else:
+                st.write("No attractions found from Tripadvisor. Try a different location or criteria.")
+        else:
+            st.error("Could not retrieve a Tripadvisor location id for the given input.")
+    else:
+        st.error("Could not geocode the departure location. Please go back and enter a valid location.")
+    
+    if st.button("Plan Another Trip"):
+        st.session_state.form_submitted = False
+        st.experimental_rerun()
+
+# -------------------------------
+# Main Navigation
+# -------------------------------
+def main():
+    if "form_submitted" not in st.session_state:
+        st.session_state.form_submitted = False
+
+    if not st.session_state.form_submitted:
+        landing_page()
+    else:
+        results_page()
+
+if __name__ == '__main__':
+    main()
