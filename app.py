@@ -49,20 +49,22 @@ st.write("Hi", title, subtitle, "welcome to NexTrip!")
 st.write("Let's find the right destination for you")
 
 st.title("Vacation type")
+st.write("...")
 
 # ==== END: Code before I (ams1231) added changes =====
 
 
 # slider for budget
+st.title("Budget")
 st.write("Define your budget!")
 budget = st.slider(" Budget you want to spend(CHF)", 0, 10000, 300)
 st.write(f"Your budget for this weekend is is: {budget} CHF")
-
 
 st.title("Travel Planner")
 
 # Main selection: Plane or Train
 travel_mode = st.selectbox("Choose your mode of travel:", ["Plane", "Train"])
+st.write("I want to travel by",travel_mode)
 
 city_names = [row[0] for row in cursor.execute("SELECT name FROM cities").fetchall()]
 activity_names = [row[0] for row in cursor.execute("SELECT name FROM activities").fetchall()]
