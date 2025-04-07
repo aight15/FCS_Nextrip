@@ -65,7 +65,7 @@ st.title("Travel Planner")
 
 # Main selection: Plane or Train
 travel_mode = st.selectbox("Choose your mode of travel:", ["Plane", "Train"])
-st.write("I want to travel by",travel_mode)
+st.write(f"I want to travel by",{travel_mode})
 
 city_names = [row[0] for row in cursor.execute("SELECT name FROM cities").fetchall()]
 activity_names = [row[0] for row in cursor.execute("SELECT name FROM activities").fetchall()]
