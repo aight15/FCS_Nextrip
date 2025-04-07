@@ -51,7 +51,6 @@ st.write("Let's find the right destination for you")
 st.title("Vacation type")
 st.write("...")
 
-# ==== END: Code before I (ams1231) added changes =====
 
 
 # slider for budget
@@ -59,6 +58,8 @@ st.title("Budget")
 st.write("Define your budget!")
 budget = st.slider(" Budget you want to spend(CHF)", 0, 10000, 300)
 st.write(f"Your budget for this weekend is is: {budget} CHF")
+
+# ==== END: Code before I (ams1231) added changes =====
 
 st.title("Travel Planner")
 
