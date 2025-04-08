@@ -92,9 +92,9 @@ vacation_categories = {
     ],
     "Urban Entertainment & Nightlife": [
         "A vibrant nightlife is an important part of my ideal vacation",
-        "I didn’t come all this way to sleep at 9.I love cities with buzzing nightlife",
-        "The real culture is in the cocktails. I experience new cities best through their clubs and late-night eats",
-    ]
+        "I didn’t come all this way to sleep at 9. I love cities with buzzing nightlife",
+        "The real culture is in the shopping bags. I experience new cities best through their shops and markets.​",  
+    ],
 }
 
 # We'll use a scale from 1 to 4:
