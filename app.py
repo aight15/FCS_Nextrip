@@ -87,7 +87,7 @@ vacation_categories = {
     ],
     "Sports & Active Recreation": [
         "I like staying physically active while on vacation.",
-        “I'll relax when I’m dead. I can’t sit still on vacation, I need to move!",
+        "I'll relax when I’m dead. I can’t sit still on vacation, I need to move!",
         "Second place is just the first loser. For me, vacations are another arena to challenge myself and come out on top.",
     ],
     "Urban Entertainment & Nightlife": [
