@@ -2,6 +2,7 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 import requests
+import plotly
 from math import radians, cos, sin, asin, sqrt
 
 conn = sqlite3.connect('database.db')
