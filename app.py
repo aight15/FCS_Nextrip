@@ -34,6 +34,36 @@ def geocode_city(city):
     """Geocode a city name using Nominatim."""
     geolocator = Nominatim(user_agent="vacation_type_app")
     return geolocator.geocode(city)
+
+# --- Welcoming the user ---
+st.title("Welcome to NexTrip: the app that allows to find the perfect destination")
+st.write("The place where you find your next destination")
+st.write("The right destination with the right budget and right travel time")
+st.write("Choose your criteria and find the perfect destination!")
+
+# --- PERSONAL DATA ---
+#enter the name
+st.title("Personal data")
+title = st.text_input("Name")
+subtitle = st.text_input("Surname")
+
+#enter the age
+import datetime
+min_date=datetime.date(1980,1,1)
+max_date=datetime.date.today()
+date=st.date_input("select your birthday",min_value=min_date,max_value=max_date)
+st.write("My birthday is on the", date)
+
+#enter the adress
+street=st.text_input ("Strasse und Hausnummer")
+place=st.text_input ("PLZ und Ort")
+st.write(street,",",place)
+
+#conclude personal data
+st.write("Hi", title, subtitle, "welcome to NexTrip!")
+st.write("Let's find the right destination for you")
+
+
 # --- VACATION TYPE QUESTIONNAIRE SECTION ---
 
 st.header("Vacation Type")
@@ -149,38 +179,6 @@ for cat, perc in vacation_percentages.items():
 
 st.write("Based on your responses, we recommend:")
 st.write(activity_suggestions)
-
-# ==== START: Code before I (ams1231) added changes =====
-
-#Create a Welcoming effect for the user
-st.title("Welcome to NexTrip: the app that allows to find the perfect destination")
-st.write("The place where you find your next destination")
-st.write("The right destination with the right budget and right travel time")
-st.write("Choose your criteria and find the perfect destination!")
-
-#enter the name
-st.title("Personal data")
-title = st.text_input("Name")
-subtitle = st.text_input("Surname")
-
-#enter the age
-import datetime
-min_date=datetime.date(1980,1,1)
-max_date=datetime.date.today()
-date=st.date_input("select your birthday",min_value=min_date,max_value=max_date)
-st.write("My birthday is on the", date)
-
-#enter the adress
-street=st.text_input ("Strasse und Hausnummer")
-place=st.text_input ("PLZ und Ort")
-st.write(street,",",place)
-
-#conclude personal data
-st.write("Hi", title, subtitle, "welcome to NexTrip!")
-st.write("Let's find the right destination for you")
-
-st.title("Vacation type")
-st.write("...")
 
 
 
