@@ -44,6 +44,10 @@ month=st.selectbox("Monat",("Januar","Februar","März","April","Mai","Juni","Jul
 year=st.selectbox("Jahr",("2007","2006","2005","2004","2003","2002","2001","2000","1999","1998","älter als 1998"),)
 st.write("Geburtsdatum:", month, year)
 
+#enter the adress
+street=st.text_input ("Strasse und Hausnummer")
+place=st.text_input ("PLZ und Ort")
+
 #conclude personal data
 st.write("Hi", title, subtitle, "welcome to NexTrip!")
 st.write("Let's find the right destination for you")
