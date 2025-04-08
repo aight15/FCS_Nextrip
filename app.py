@@ -42,7 +42,7 @@ subtitle = st.text_input("Surname")
 #enter the age
 import datetime
 date=st.date_input("select your birthday",value=None)
-st.write("My birthday is on the" date)
+st.write("My birthday is on the", date)
 
 month=st.selectbox("Monat",("Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"),)
 year=st.selectbox("Jahr",("2007","2006","2005","2004","2003","2002","2001","2000","1999","1998","älter als 1998"),)
