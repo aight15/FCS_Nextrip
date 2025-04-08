@@ -55,8 +55,8 @@ date=st.date_input("select your birthday",min_value=min_date,max_value=max_date)
 st.write("My birthday is on the", date)
 
 #enter the adress
-street=st.text_input ("Strasse und Hausnummer")
-place=st.text_input ("PLZ und Ort")
+street=st.text_input ("Street und Number")
+place=st.text_input ("Code und City")
 st.write(street,",",place)
 
 #conclude personal data
