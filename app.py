@@ -47,6 +47,7 @@ st.write("Geburtsdatum:", month, year)
 #enter the adress
 street=st.text_input ("Strasse und Hausnummer")
 place=st.text_input ("PLZ und Ort")
+st.write(street,",",place)
 
 #conclude personal data
 st.write("Hi", title, subtitle, "welcome to NexTrip!")
