@@ -138,7 +138,6 @@ for cat, perc in vacation_percentages.items():
 
 st.write("Based on your responses, we recommend:")
 st.write(activity_suggestions)
-st.write("For example, if you have 60% for Adventure, you'll see 6 adventure-themed suggestions.")
 
 # ==== START: Code before I (ams1231) added changes =====
 
