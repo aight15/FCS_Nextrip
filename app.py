@@ -72,40 +72,28 @@ st.write("Answer the following questions to help us determine your ideal vacatio
 # Define five categories for vacation type
 vacation_categories = {
     "Nature & Outdoor Adventure": [
-        "I enjoy outdoor activities and exploring rugged landscapes.",
-        "I like trying extreme sports such as hiking, rafting, or rock climbing.",
-        "I prefer vacations that are full of adventure and excitement.",
-        "I don't mind staying at basic or rustic accomodations (e.g. tents, cabins).",
-        "I hate to sit around. I need some action in my life!",
-        "I feel comfortable and at ease wehn I'm in natural surroundings."
+        "I prefer vacations that are full of adventure and excitement",
+        "Why relax when you can fall off a cliff? I enjoy extreme sports like hiking, rafting, or rock climbing",
+        "Luxury is overrated – give me a tent and a fire pit. I don’t mind basic or rustic accommodations",
     ],
     "Cultural & Historical Exploration": [
-        "I enjoy visiting museums and historical landmarks.",
-        "Learning about local history and culture is important to me.",
-        "I prefer vacations with rich cultural experiences.",
-        "I always loved reading books/texts about history or other cultures.",
-        "I appreciate architecture, ancient ruins, and cultural festivals."
-    ],
+        "Learning about local history and culture is important to me",
+        "Museums are my nightclubs. I get a thrill from visiting museums and cultural sites",   
+        ],
     "Relaxation & Wellness": [
-        "I prefer vacations that allow me to relax and unwind.",
-        "Spending quiet time in a calm environment is essential for me.",
-        "I value rest and relaxation during my vacation.",
-        "I love spending time by the sea or on the beach.",
-        "Work-life balance is important to me. You can not perform well without some wellness and relaxation time."
+        "I value rest and relaxation during my vacation",
+        "Work hard, spa harder. I take wellness and self-care very seriously, even while traveling",
+        "A vacation without a beach is like a margarita without tequila",
     ],
     "Sports & Active Recreation": [
-        "A real vacation is only achieved when reaching a set of goals",
-        "I often seek destinations based on the sport or activity I can do there.",
-        "I like staying physically active while on vacation."
-        "I'll have enough sleep and relxation when I'm dead. I need to stay active!"
+        "I like staying physically active while on vacation.",
+        “I'll relax when I’m dead. I can’t sit still on vacation, I need to move!",
+        "Second place is just the first loser. For me, vacations are another arena to challenge myself and come out on top.",
     ],
     "Urban Entertainment & Nightlife": [
-        "I enjoy going out at night and visiting clubs or lively bars.",
-        "A vibrant nightlife is an important part of my ideal vacation.",
-        "I prefer vacations with plenty of evening entertainment."
-        "I love dancing and going out."
-        "I have not really seen a place without experiencing its nightlife."
-        "I love to get wasted in bars and clubs."
+        "A vibrant nightlife is an important part of my ideal vacation",
+        "I didn’t come all this way to sleep at 9.I love cities with buzzing nightlife",
+        "The real culture is in the cocktails. I experience new cities best through their clubs and late-night eats",
     ]
 }
 
