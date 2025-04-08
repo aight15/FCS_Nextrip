@@ -41,30 +41,41 @@ st.write("Answer the following questions to help us determine your ideal vacatio
 
 # Define five categories for vacation type
 vacation_categories = {
-    "Adventure": [
+    "Nature & Outdoor Adventure": [
         "I enjoy outdoor activities and exploring rugged landscapes.",
         "I like trying extreme sports such as hiking, rafting, or rock climbing.",
-        "I prefer vacations that are full of adventure and excitement."
+        "I prefer vacations that are full of adventure and excitement.",
+        "I don't mind staying at basic or rustic accomodations (e.g. tents, cabins).",
+        "I hate to sit around. I need some action in my life!",
+        "I feel comfortable and at ease wehn I'm in natural surroundings."
     ],
-    "Culture": [
+    "Cultural & Historical Exploration": [
         "I enjoy visiting museums and historical landmarks.",
         "Learning about local history and culture is important to me.",
-        "I prefer vacations with rich cultural experiences."
+        "I prefer vacations with rich cultural experiences.",
+        "I always loved reading books/texts about history or other cultures.",
+        "I appreciate architecture, ancient ruins, and cultural festivals."
     ],
-    "Relaxation": [
+    "Relaxation & Wellness": [
         "I prefer vacations that allow me to relax and unwind.",
         "Spending quiet time in a calm environment is essential for me.",
-        "I value rest and relaxation during my vacation."
-    ],
-    "Beach": [
+        "I value rest and relaxation during my vacation.",
         "I love spending time by the sea or on the beach.",
-        "Relaxing on a sunny beach is a key element of my ideal vacation.",
-        "I enjoy water activities such as swimming or sunbathing."
+        "Work-life balance is important to me. You can not perform well without some wellness and relaxation time."
     ],
-    "Nightlife": [
+    "Sports & Active Recreation": [
+        "A real vacation is only achieved when reaching a set of goals",
+        "I often seek destinations based on the sport or activity I can do there.",
+        "I like staying physically active while on vacation."
+        "I'll have enough sleep and relxation when I'm dead. I need to stay active!"
+    ],
+    "Urban Entertainment & Nightlife": [
         "I enjoy going out at night and visiting clubs or lively bars.",
         "A vibrant nightlife is an important part of my ideal vacation.",
         "I prefer vacations with plenty of evening entertainment."
+        "I love dancing and going out."
+        "I have not really seen a place without experiencing its nightlife."
+        "I love to get wasted in bars and clubs."
     ]
 }
 
