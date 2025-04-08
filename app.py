@@ -2,8 +2,10 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 import requests
-import plotly
 from math import radians, cos, sin, asin, sqrt
+import datetime
+import plotly.graph_objects as go
+from geopy.geocoders import Nominatim
 
 conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
@@ -26,6 +28,117 @@ def get_temperature_from_meteo(lat, lon):
     except:
         pass
     return "N/A"
+
+@st.cache_data
+def geocode_city(city):
+    """Geocode a city name using Nominatim."""
+    geolocator = Nominatim(user_agent="vacation_type_app")
+    return geolocator.geocode(city)
+# --- VACATION TYPE QUESTIONNAIRE SECTION ---
+
+st.header("Vacation Type")
+st.write("Answer the following questions to help us determine your ideal vacation style.")
+
+# Define five categories for vacation type
+vacation_categories = {
+    "Adventure": [
+        "I enjoy outdoor activities and exploring rugged landscapes.",
+        "I like trying extreme sports such as hiking, rafting, or rock climbing.",
+        "I prefer vacations that are full of adventure and excitement."
+    ],
+    "Culture": [
+        "I enjoy visiting museums and historical landmarks.",
+        "Learning about local history and culture is important to me.",
+        "I prefer vacations with rich cultural experiences."
+    ],
+    "Relaxation": [
+        "I prefer vacations that allow me to relax and unwind.",
+        "Spending quiet time in a calm environment is essential for me.",
+        "I value rest and relaxation during my vacation."
+    ],
+    "Beach": [
+        "I love spending time by the sea or on the beach.",
+        "Relaxing on a sunny beach is a key element of my ideal vacation.",
+        "I enjoy water activities such as swimming or sunbathing."
+    ],
+    "Nightlife": [
+        "I enjoy going out at night and visiting clubs or lively bars.",
+        "A vibrant nightlife is an important part of my ideal vacation.",
+        "I prefer vacations with plenty of evening entertainment."
+    ]
+}
+
+# We'll use a scale from 1 to 4:
+scale_options = {
+    1: "Highly disagree",
+    2: "Somewhat disagree",
+    3: "Somewhat agree",
+    4: "Highly agree"
+}
+
+# Initialize dictionary to store category scores
+vacation_scores = {category: 0 for category in vacation_categories}
+
+st.write("Please answer each question with a rating from 1 to 4:")
+for category, questions in vacation_categories.items():
+    st.subheader(category)
+    for i, question in enumerate(questions, start=1):
+        # Create a unique key for each question using category and index
+        response = st.radio(f"{question}", options=[1, 2, 3, 4], index=1, key=f"{category}_q{i}")
+        vacation_scores[category] += response
+
+st.write("Your raw vacation type scores:")
+st.write(vacation_scores)
+
+# Compute total score and percentages per category
+total_points = sum(vacation_scores.values())
+vacation_percentages = {}
+for cat, score in vacation_scores.items():
+    if total_points > 0:
+        vacation_percentages[cat] = round((score / total_points) * 100, 1)
+    else:
+        vacation_percentages[cat] = 0
+
+st.write("Vacation Type Percentages (%):")
+st.write(vacation_percentages)
+
+# Plot a radar chart to visualize the scores
+def plot_radar_chart(scores):
+    categories = list(scores.keys())
+    values = list(scores.values())
+    # Repeat the first element to close the radar chart
+    categories.append(categories[0])
+    values.append(values[0])
+    
+    fig = go.Figure(
+        data=[
+            go.Scatterpolar(r=values, theta=categories, fill='toself', name="Vacation Profile")
+        ]
+    )
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, 12]  # Maximum score per category (since 3 questions * 4 = 12)
+            )
+        ),
+        showlegend=False
+    )
+    st.plotly_chart(fig)
+
+plot_radar_chart(vacation_scores)
+
+# Determine recommended distribution if you have a fixed number of activity suggestions per destination (e.g., 10)
+total_recommendations = 10
+activity_suggestions = {}
+for cat, perc in vacation_percentages.items():
+    # Compute number of suggestions based on percentage (rounded to nearest integer)
+    count = round((perc / 100) * total_recommendations)
+    activity_suggestions[cat] = count
+
+st.write("Based on your responses, we recommend:")
+st.write(activity_suggestions)
+st.write("For example, if you have 60% for Adventure, you'll see 6 adventure-themed suggestions.")
 
 # ==== START: Code before I (ams1231) added changes =====
 
