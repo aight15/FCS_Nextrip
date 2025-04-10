@@ -5,7 +5,6 @@ import requests
 from math import radians, cos, sin, asin, sqrt
 import datetime
 import plotly.graph_objects as go
-import plotly.graph_objects as go
 from geopy.geocoders import Nominatim
 
 conn = sqlite3.connect('database.db')
