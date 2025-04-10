@@ -184,12 +184,16 @@ st.title("Travel Planner")
 travel_mode = st.selectbox("Choose your mode of travel:", ["Plane", "Train"])
 st.write(f"I want to travel by {travel_mode}")
 
+#takes always the first name in each row of data base
+
 city_names = [row[0] for row in cursor.execute("SELECT name FROM cities").fetchall()]
 activity_names = [row[0] for row in cursor.execute("SELECT name FROM activities").fetchall()]
 
+#travel mode Plane
+
 if travel_mode == "Plane":
     st.header("✈️ Plane Travel Preferences")
-
+#select departure city, max travel duration and choose activity
     start_city = st.selectbox("Select your departure city:", city_names)
     #max_price = st.slider("Maximum price you're willing to pay (CHF):", min_value=50, max_value=2000, value=500, step=50)
     max_duration = st.slider("Maximum travel duration (hours):", min_value=1, max_value=6, value=3)
@@ -215,6 +219,8 @@ if travel_mode == "Plane":
     if st.session_state.show_recommendations:
         cursor.execute("SELECT latitude, longitude FROM cities WHERE name = ?", (st.session_state.start_city,))
         start_coords = cursor.fetchone()
+
+        #calculation of possible cities in travel time
 
         if start_coords:
             lat1, lon1 = start_coords
