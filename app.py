@@ -1,4 +1,5 @@
 import streamlit as st
+import googlemaps
 import sqlite3
 import pandas as pd
 import requests
@@ -6,6 +7,8 @@ from math import radians, cos, sin, asin, sqrt
 import datetime
 import plotly.graph_objects as go
 from geopy.geocoders import Nominatim
+import re
+
 
 conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
@@ -18,6 +21,22 @@ def haversine(lat1, lon1, lat2, lon2):
     c = 2 * asin(sqrt(a))
     return R * c
 
+def duration_to_hours(duration_str):
+    hours = 0
+    minutes = 0
+
+    # Extract numbers using regex
+    hours_match = re.search(r"(\d+)\s*hour", duration_str)
+    mins_match = re.search(r"(\d+)\s*min", duration_str)
+
+    if hours_match:
+        hours = int(hours_match.group(1))
+    if mins_match:
+        minutes = int(mins_match.group(1))
+
+    total_hours = hours + (minutes / 60)
+    return total_hours
+
 def get_temperature_from_meteo(lat, lon):
     try:
         url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
@@ -28,6 +47,29 @@ def get_temperature_from_meteo(lat, lon):
     except:
         pass
     return "N/A"
+
+def get_train_travel_time(origin_city, destination_city):
+    api_key = "AIzaSyAAslBkptekhyJR9ZRZMUDKxBFgztgOBCg"
+    # Initialize Google Maps client
+    gmaps = googlemaps.Client(key=api_key)
+
+    # Request directions using transit mode = train
+    directions_result = gmaps.directions(
+        origin=origin_city,
+        destination=destination_city,
+        mode="transit",
+        transit_mode="train",
+        departure_time="now"  # Can also use a timestamp
+    )
+
+    if not directions_result:
+        return "No train route found."
+
+    # Extract travel duration
+    duration = directions_result[0]['legs'][0]['duration']['text']
+    return duration
+
+
 
 @st.cache_data
 def geocode_city(city):
@@ -247,13 +289,19 @@ if travel_mode == "Plane":
                     ''', (city_id, st.session_state.activity))
                     results = [r[0] for r in cursor.fetchall() if r[0]]
                     if results:
-                        matching_cities.append((city_name, lat2, lon2, results))
+                        # calculate time it takes
+                        time_in_hours = round(distance) / 800 # 800 km/h average plane speed
+                        # convert to hours and minutes
+                        hours = int(time_in_hours)
+                        minutes = int(round((time_in_hours - hours) * 60))
+                        time_needed = f"{hours} hours {minutes} mins"
+                        matching_cities.append((city_name, lat2, lon2, results, time_needed))
 
             st.markdown("### 🔍 Matching Destinations")
             if matching_cities:
-                for city_name, lat2, lon2, activities in matching_cities[:10]:
+                for city_name, lat2, lon2, activities, time_needed in matching_cities[:15]:
                     temperature = get_temperature_from_meteo(lat2, lon2)
-                    st.markdown(f"**{city_name} ({temperature})**")
+                    st.markdown(f"**{city_name} ({temperature}) Time needed: {time_needed}**")
                     for act in activities:
                         st.write(f"- {act}")
             else:
@@ -309,10 +357,14 @@ elif travel_mode == "Train":
 
             st.markdown("### 🔍 Matching Train Destinations")
             if matching_cities:
-                for city_name, lat2, lon2, activities in matching_cities[:10]:
-                    temperature = get_temperature_from_meteo(lat2, lon2)
-                    st.markdown(f"**{city_name} ({temperature})**")
-                    for act in activities:
-                        st.write(f"- {act}")
+                for city_name, lat2, lon2, activities in matching_cities[:15]:
+                    selected_time = st.session_state.max_duration_train
+                    travel_time = get_train_travel_time(st.session_state.start_city_train, city_name)
+					# if the travel time is below user input
+                    if not duration_to_hours(travel_time) > selected_time:
+                        temperature = get_temperature_from_meteo(lat2, lon2)
+                        st.markdown(f"**{city_name} ({temperature}) Travel time: {get_train_travel_time(st.session_state.start_city_train, city_name)}**")
+                        for act in activities:
+                        	st.write(f"- {act}")
             else:
                 st.info("No destinations match your criteria.")
