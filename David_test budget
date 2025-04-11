@@ -5,7 +5,6 @@ import requests
 from math import radians, cos, sin, asin, sqrt
 import datetime
 import plotly.graph_objects as go
-from geopy.geocoders import Nominatim
 
 conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
@@ -17,6 +16,7 @@ def haversine(lat1, lon1, lat2, lon2):
     a = sin(d_lat/2)**2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(d_lon/2)**2
     c = 2 * asin(sqrt(a))
     return R * c
+
 st.title("Travel Planner")
 
 # Main selection: Plane or Train
@@ -26,21 +26,18 @@ st.write(f"I want to travel by {travel_mode}")
 # slider for budget
 st.title("Budget")
 st.write("Define your budget!")
-budget = st.slider(" Budget you want to spend(CHF)", 0, 10000, 300)
-st.write(f"Your budget for this weekend is is: {budget} CHF")
+budget = st.slider("Budget you want to spend (CHF)", 0, 10000, 300)
+st.write(f"Your budget for this weekend is: {budget} CHF")
 
-#takes always the first name in each row of data base
-
+# Takes always the first name in each row of the database
 city_names = [row[0] for row in cursor.execute("SELECT name FROM cities").fetchall()]
 activity_names = [row[0] for row in cursor.execute("SELECT name FROM activities").fetchall()]
 
-#travel mode Plane
-
+# Travel mode Plane
 if travel_mode == "Plane":
     st.header("✈️ Plane Travel Preferences")
-#select departure city, max travel duration and choose activity
+    # Select departure city, max travel duration, and choose activity
     start_city = st.selectbox("Select your departure city:", city_names)
-    #max_price = st.slider("Maximum price you're willing to pay (CHF):", min_value=50, max_value=2000, value=500, step=50)
     max_duration = st.slider("Maximum travel duration (hours):", min_value=1, max_value=6, value=3)
     activity = st.selectbox("Preferred activity:", activity_names)
 
@@ -50,14 +47,12 @@ if travel_mode == "Plane":
     if 'show_recommendations' not in st.session_state:
         st.session_state.show_recommendations = False
         st.session_state.start_city = None
-        #st.session_state.max_price = None
         st.session_state.max_duration = None
         st.session_state.activity = None
 
     if st.button("Get recommendations"):
         st.session_state.show_recommendations = True
         st.session_state.start_city = start_city
-        #st.session_state.max_price = max_price
         st.session_state.max_duration = max_duration
         st.session_state.activity = activity
 
@@ -65,11 +60,10 @@ if travel_mode == "Plane":
         cursor.execute("SELECT latitude, longitude FROM cities WHERE name = ?", (st.session_state.start_city,))
         start_coords = cursor.fetchone()
 
-        #calculation of possible cities in travel time
-
+        # Calculation of possible cities in travel time
         if start_coords:
             lat1, lon1 = start_coords
-            max_distance = st.session_state.max_duration * 800
+            max_distance = st.session_state.max_duration * 800  # Travel at 800 km/h
 
             cursor.execute("SELECT id, name, latitude, longitude FROM cities WHERE name != ?", (st.session_state.start_city,))
             cities = cursor.fetchall()
@@ -87,19 +81,19 @@ if travel_mode == "Plane":
                     if results:
                         matching_cities.append((city_name, lat2, lon2, results))
 
-
             st.markdown("### 🔍 Matching Destinations")
             if matching_cities:
                 for city_name, lat2, lon2, activities in matching_cities[:10]:
-                    temperature = get_temperature_from_meteo(lat2, lon2)
-                    #travel cost
-                     st.write(f"**Travel Cost: {travel_cost:.2f} CHF**")
-                    st.markdown(f"**{city_name} ({temperature})**")
+                    # travel cost calculation
+                    travel_cost = distance * 0.1  # Example cost per km for plane travel
+                    st.write(f"**Travel Cost: {travel_cost:.2f} CHF**")
+                    st.markdown(f"**{city_name}**")
                     for act in activities:
                         st.write(f"- {act}")
             else:
                 st.info("No destinations match your criteria.")
 
+# Travel mode Train
 elif travel_mode == "Train":
     st.header("🚆 Train Travel Preferences")
 
@@ -128,7 +122,7 @@ elif travel_mode == "Train":
 
         if start_coords:
             lat1, lon1 = start_coords
-            max_distance = st.session_state.max_duration_train * 100  # 100 km/h for train
+            max_distance = st.session_state.max_duration_train * 100  # Travel at 100 km/h for trains
 
             cursor.execute("SELECT id, name, latitude, longitude FROM cities WHERE name != ?", (st.session_state.start_city_train,))
             cities = cursor.fetchall()
@@ -137,7 +131,7 @@ elif travel_mode == "Train":
             for city_id, city_name, lat2, lon2 in cities:
                 distance = haversine(lat1, lon1, lat2, lon2)
                 if distance <= max_distance:
-                    travel_cost = distance * cost_per_km_train  # cost per km calculation
+                    travel_cost = distance * 0.1  # Example cost per km for train travel
                     cursor.execute('''
                         SELECT description FROM city_activities
                         JOIN activities ON city_activities.activity_id = activities.id
@@ -150,8 +144,7 @@ elif travel_mode == "Train":
             st.markdown("### 🔍 Matching Train Destinations")
             if matching_cities:
                 for city_name, lat2, lon2, activities in matching_cities[:10]:
-                    temperature = get_temperature_from_meteo(lat2, lon2)
-                    st.markdown(f"**{city_name} ({temperature})**")
+                    st.markdown(f"**{city_name}**")
                     st.write(f"**Travel Cost: {travel_cost:.2f} CHF**")
                     for act in activities:
                         st.write(f"- {act}")
