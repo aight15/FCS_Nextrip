@@ -165,10 +165,12 @@ for cat, perc in vacation_percentages.items():
     count = round((perc / 100) * total_recommendations)
     activity_suggestions[cat] = count
 
+# Get the category with the highest percentage
+max_category = max(vacation_percentages, key=vacation_percentages.get)
+st.session_state["activity"] = max_category
+
 st.write("Based on your responses, we recommend:")
 st.write(activity_suggestions)
-
-
 
 # slider for budget
 st.title("Budget")
@@ -197,7 +199,12 @@ if travel_mode == "Plane":
     start_city = st.selectbox("Select your departure city:", city_names)
     #max_price = st.slider("Maximum price you're willing to pay (CHF):", min_value=50, max_value=2000, value=500, step=50)
     max_duration = st.slider("Maximum travel duration (hours):", min_value=1, max_value=6, value=3)
-    activity = st.selectbox("Preferred activity:", activity_names)
+
+    # Find the index of the recommended activity
+    default_index = activity_names.index(max_category)
+
+    # Set the selectbox with that index
+    activity = st.selectbox("Preferred activity:", activity_names, index=default_index)
 
     st.markdown("### Summary:")
     st.write(f"Traveling from **{start_city}** by **plane**, max duration: **{max_duration}h**, activity: **{activity}**.")
@@ -257,7 +264,9 @@ elif travel_mode == "Train":
 
     start_city_train = st.selectbox("Select your departure city:", city_names, key="train_start")
     max_duration_train = st.slider("Maximum travel duration (hours):", min_value=1, max_value=24, value=6, key="train_duration")
-    activity_train = st.selectbox("Preferred activity:", activity_names, key="train_activity")
+    # Find the index of the recommended activity
+    default_index = activity_names.index(max_category)
+    activity_train = st.selectbox("Preferred activity:", activity_names, index=default_index, key="train_activity")
 
     st.markdown("### Summary:")
     st.write(f"Traveling from **{start_city_train}** by **train**, max duration: **{max_duration_train}h**, activity: **{activity_train}**.")

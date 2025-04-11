@@ -1,7 +1,7 @@
 import sqlite3
 
 # Redefine data after kernel reset
-activity_names = ["Culture", "Nightlife", "Beach", "Adventure"]
+activity_names = ["Culture & Historical Exploration", "Urban Entertainment & Nightlife", "Sports & Active Recreation", "Nature & Outdoor Adventure", "Relaxation & Wellness"]
 
 raw_city_data = {
     "Istanbul": (41.0082, 28.9784, "Turkey"),
@@ -68,305 +68,305 @@ raw_city_data = {
 
 custom_city_activities = {
 	"Basel": {
-		"Culture": ["Kunstmuseum", "Basel Minster"],
-		"Nightlife": ["Bar Rouge", "Atlantis Club"],
-		"Adventure": ["Rhine River Cruise", "Basel Zoo"]
+		"Culture & Historical Exploration": ["Kunstmuseum", "Basel Minster"],
+		"Urban Entertainment & Nightlife": ["Bar Rouge", "Atlantis Club"],
+		"Nature & Outdoor Adventure": ["Rhine River Cruise", "Basel Zoo"]
 	},
 	"Geneva": {
-		"Culture": ["Jet d'Eau", "Palais des Nations"],
-		"Nightlife": ["Rue de l'École-de-Médecine Bars", "Java Club"],
-		"Adventure": ["Lake Geneva Boat Tour", "Mont Salève Hike"]
+		"Culture & Historical Exploration": ["Jet d'Eau", "Palais des Nations"],
+		"Urban Entertainment & Nightlife": ["Rue de l'École-de-Médecine Bars", "Java Club"],
+		"Nature & Outdoor Adventure": ["Lake Geneva Boat Tour", "Mont Salève Hike"]
 	},
     "Istanbul": {
-        "Culture": ["Hagia Sophia", "Topkapi Palace"],
-        "Nightlife": ["Taksim Square", "Kadikoy Bars"],
-        "Adventure": ["Bosphorus Cruise", "Princes' Islands Tour"]
+        "Culture & Historical Exploration": ["Hagia Sophia", "Topkapi Palace"],
+        "Urban Entertainment & Nightlife": ["Taksim Square", "Kadikoy Bars"],
+        "Nature & Outdoor Adventure": ["Bosphorus Cruise", "Princes' Islands Tour"]
     },
     "Moscow": {
-        "Culture": ["Red Square", "The Kremlin"],
-        "Nightlife": ["Arbat Street", "Bolotnaya Naberezhnaya"],
-        "Adventure": ["Gorky Park Activities"]
+        "Culture & Historical Exploration": ["Red Square", "The Kremlin"],
+        "Urban Entertainment & Nightlife": ["Arbat Street", "Bolotnaya Naberezhnaya"],
+        "Nature & Outdoor Adventure": ["Gorky Park Activities"]
     },
     "London": {
-        "Culture": ["British Museum", "Tower of London"],
-        "Nightlife": ["Soho", "Camden Town"],
-        "Adventure": ["Thames River Kayaking"]
+        "Culture & Historical Exploration": ["British Museum", "Tower of London"],
+        "Urban Entertainment & Nightlife": ["Soho", "Camden Town"],
+        "Nature & Outdoor Adventure": ["Thames River Kayaking"]
     },
     "Saint Petersburg": {
-        "Culture": ["Hermitage Museum", "Peter and Paul Fortress"],
-        "Nightlife": ["Nevsky Prospect", "Rubinstein Street"],
-        "Adventure": ["Icebreaker Cruise on Neva River"]
+        "Culture & Historical Exploration": ["Hermitage Museum", "Peter and Paul Fortress"],
+        "Urban Entertainment & Nightlife": ["Nevsky Prospect", "Rubinstein Street"],
+        "Nature & Outdoor Adventure": ["Icebreaker Cruise on Neva River"]
     },
     "Berlin": {
-        "Culture": ["Brandenburg Gate", "Museum Island"],
-        "Nightlife": ["Berghain", "Kreuzberg Bars"],
-        "Adventure": ["Spree River Boat Tour"]
+        "Culture & Historical Exploration": ["Brandenburg Gate", "Museum Island"],
+        "Urban Entertainment & Nightlife": ["Berghain", "Kreuzberg Bars"],
+        "Nature & Outdoor Adventure": ["Spree River Boat Tour"]
     },
     "Madrid": {
-        "Culture": ["Prado Museum", "Royal Palace of Madrid"],
-        "Nightlife": ["Gran Via", "Chueca District"],
-        "Adventure": ["Retiro Park Rowing"]
+        "Culture & Historical Exploration": ["Prado Museum", "Royal Palace of Madrid"],
+        "Urban Entertainment & Nightlife": ["Gran Via", "Chueca District"],
+        "Nature & Outdoor Adventure": ["Retiro Park Rowing"]
     },
     "Rome": {
-        "Culture": ["Colosseum", "Vatican Museums"],
-        "Nightlife": ["Trastevere", "Campo de' Fiori"],
-        "Adventure": ["Gianicolo Hill Walk"]
+        "Culture & Historical Exploration": ["Colosseum", "Vatican Museums"],
+        "Urban Entertainment & Nightlife": ["Trastevere", "Campo de' Fiori"],
+        "Nature & Outdoor Adventure": ["Gianicolo Hill Walk"]
     },
     "Kyiv": {
-        "Culture": ["Saint Sophia's Cathedral", "Kyiv Pechersk Lavra"],
-        "Nightlife": ["Arena City", "Podil District"],
-        "Adventure": ["Dnipro River Cruise"]
+        "Culture & Historical Exploration": ["Saint Sophia's Cathedral", "Kyiv Pechersk Lavra"],
+        "Urban Entertainment & Nightlife": ["Arena City", "Podil District"],
+        "Nature & Outdoor Adventure": ["Dnipro River Cruise"]
     },
     "Bucharest": {
-        "Culture": ["Palace of the Parliament", "Romanian Athenaeum"],
-        "Nightlife": ["Old Town Lipscani", "Control Club"],
-        "Adventure": ["Herăstrău Park Boating"]
+        "Culture & Historical Exploration": ["Palace of the Parliament", "Romanian Athenaeum"],
+        "Urban Entertainment & Nightlife": ["Old Town Lipscani", "Control Club"],
+        "Nature & Outdoor Adventure": ["Herăstrău Park Boating"]
     },
     "Paris": {
-        "Culture": ["Louvre Museum", "Notre-Dame Cathedral"],
-        "Nightlife": ["Moulin Rouge", "Le Marais"],
-        "Adventure": ["Seine River Cruise", "Montmartre Walk"]
+        "Culture & Historical Exploration": ["Louvre Museum", "Notre-Dame Cathedral"],
+        "Urban Entertainment & Nightlife": ["Moulin Rouge", "Le Marais"],
+        "Nature & Outdoor Adventure": ["Seine River Cruise", "Montmartre Walk"]
     },
     "Belgrade": {
-        "Culture": ["Belgrade Fortress", "Nikola Tesla Museum"],
-        "Nightlife": ["Skadarlija", "Floating River Clubs"],
-        "Adventure": ["Ada Ciganlija Lake Activities"]
+        "Culture & Historical Exploration": ["Belgrade Fortress", "Nikola Tesla Museum"],
+        "Urban Entertainment & Nightlife": ["Skadarlija", "Floating River Clubs"],
+        "Nature & Outdoor Adventure": ["Ada Ciganlija Lake Activities"]
     },
     "Hamburg": {
-        "Culture": ["Miniatur Wunderland", "Elbphilharmonie"],
-        "Nightlife": ["Reeperbahn", "Sternschanze"],
-        "Adventure": ["Harbor Boat Tour"]
+        "Culture & Historical Exploration": ["Miniatur Wunderland", "Elbphilharmonie"],
+        "Urban Entertainment & Nightlife": ["Reeperbahn", "Sternschanze"],
+        "Nature & Outdoor Adventure": ["Harbor Boat Tour"]
     },
     "Warsaw": {
-        "Culture": ["Royal Castle", "POLIN Museum"],
-        "Nightlife": ["Pawilony", "Nowy Świat Street"],
-        "Adventure": ["Vistula River Beach"]
+        "Culture & Historical Exploration": ["Royal Castle", "POLIN Museum"],
+        "Urban Entertainment & Nightlife": ["Pawilony", "Nowy Świat Street"],
+        "Nature & Outdoor Adventure": ["Vistula River Sports & Active Recreation"]
     },
     "Budapest": {
-        "Culture": ["Buda Castle", "Hungarian Parliament"],
-        "Nightlife": ["Ruin Bars in District VII", "Gozsdu Courtyard"],
-        "Adventure": ["Thermal Baths", "Danube River Cruise"]
+        "Culture & Historical Exploration": ["Buda Castle", "Hungarian Parliament"],
+        "Urban Entertainment & Nightlife": ["Ruin Bars in District VII", "Gozsdu Courtyard"],
+        "Nature & Outdoor Adventure": ["Thermal Baths", "Danube River Cruise"]
     },
     "Vienna": {
-        "Culture": ["Schönbrunn Palace", "Belvedere Museum"],
-        "Nightlife": ["Bermuda Triangle", "Gürtel Nightlife Mile"],
-        "Adventure": ["Danube Island Activities"]
+        "Culture & Historical Exploration": ["Schönbrunn Palace", "Belvedere Museum"],
+        "Urban Entertainment & Nightlife": ["Bermuda Triangle", "Gürtel Urban Entertainment & Nightlife Mile"],
+        "Nature & Outdoor Adventure": ["Danube Island Activities"]
     },
     "Munich": {
-        "Culture": ["Nymphenburg Palace", "Deutsches Museum"],
-        "Nightlife": ["Schwabing", "Glockenbachviertel"],
-        "Adventure": ["English Garden Surfing"]
+        "Culture & Historical Exploration": ["Nymphenburg Palace", "Deutsches Museum"],
+        "Urban Entertainment & Nightlife": ["Schwabing", "Glockenbachviertel"],
+        "Nature & Outdoor Adventure": ["English Garden Surfing"]
     },
     "Milan": {
-        "Culture": ["Duomo di Milano", "Sforza Castle"],
-        "Nightlife": ["Navigli District", "Brera District"],
-        "Adventure": ["Parco Sempione Walks"]
+        "Culture & Historical Exploration": ["Duomo di Milano", "Sforza Castle"],
+        "Urban Entertainment & Nightlife": ["Navigli District", "Brera District"],
+        "Nature & Outdoor Adventure": ["Parco Sempione Walks"]
     },
     "Prague": {
-        "Culture": ["Prague Castle", "Charles Bridge"],
-        "Nightlife": ["Wenceslas Square", "Zizkov District"],
-        "Adventure": ["Vltava River Cruise"]
+        "Culture & Historical Exploration": ["Prague Castle", "Charles Bridge"],
+        "Urban Entertainment & Nightlife": ["Wenceslas Square", "Zizkov District"],
+        "Nature & Outdoor Adventure": ["Vltava River Cruise"]
     },
     "Sofia": {
-        "Culture": ["Alexander Nevsky Cathedral", "National Palace of Culture"],
-        "Nightlife": ["Vitosha Boulevard", "Studentski Grad"],
-        "Adventure": ["Vitosha Mountain Hiking"]
+        "Culture & Historical Exploration": ["Alexander Nevsky Cathedral", "National Palace of Culture"],
+        "Urban Entertainment & Nightlife": ["Vitosha Boulevard", "Studentski Grad"],
+        "Nature & Outdoor Adventure": ["Vitosha Mountain Hiking"]
     },
     "Amsterdam": {
-        "Culture": ["Rijksmuseum", "Van Gogh Museum"],
-        "Nightlife": ["Leidseplein", "Red Light District"],
-        "Adventure": ["Canal Kayaking"]
+        "Culture & Historical Exploration": ["Rijksmuseum", "Van Gogh Museum"],
+        "Urban Entertainment & Nightlife": ["Leidseplein", "Red Light District"],
+        "Nature & Outdoor Adventure": ["Canal Kayaking"]
     },
     "Stuttgart": {
-        "Culture": ["Mercedes-Benz Museum", "Staatsgalerie Stuttgart"],
-        "Nightlife": ["Theodor-Heuss-Straße", "Hans-im-Glück-Viertel"],
-        "Adventure": ["Killesberg Park Climbing Tower"]
+        "Culture & Historical Exploration": ["Mercedes-Benz Museum", "Staatsgalerie Stuttgart"],
+        "Urban Entertainment & Nightlife": ["Theodor-Heuss-Straße", "Hans-im-Glück-Viertel"],
+        "Nature & Outdoor Adventure": ["Killesberg Park Climbing Tower"]
     },
     "Stockholm": {
-        "Culture": ["Vasa Museum", "Gamla Stan"],
-        "Nightlife": ["Södermalm", "Stureplan"],
-        "Adventure": ["Archipelago Kayaking"]
+        "Culture & Historical Exploration": ["Vasa Museum", "Gamla Stan"],
+        "Urban Entertainment & Nightlife": ["Södermalm", "Stureplan"],
+        "Nature & Outdoor Adventure": ["Archipelago Kayaking"]
     },
     "Lisbon": {
-        "Culture": ["Belém Tower", "Jerónimos Monastery"],
-        "Nightlife": ["Bairro Alto", "Cais do Sodré"],
-        "Beach": ["Carcavelos Beach", "Costa da Caparica"],
-        "Adventure": ["Tram 28 Ride"]
+        "Culture & Historical Exploration": ["Belém Tower", "Jerónimos Monastery"],
+        "Urban Entertainment & Nightlife": ["Bairro Alto", "Cais do Sodré"],
+        "Sports & Active Recreation": ["Carcavelos Sports & Active Recreation", "Costa da Caparica"],
+        "Nature & Outdoor Adventure": ["Tram 28 Ride"]
     },
     "Oslo": {
-        "Culture": ["Viking Ship Museum", "Oslo Opera House"],
-        "Nightlife": ["Grünerløkka", "Aker Brygge"],
-        "Adventure": ["Oslofjord Sailing"]
+        "Culture & Historical Exploration": ["Viking Ship Museum", "Oslo Opera House"],
+        "Urban Entertainment & Nightlife": ["Grünerløkka", "Aker Brygge"],
+        "Nature & Outdoor Adventure": ["Oslofjord Sailing"]
     },
     "Athens": {
-        "Culture": ["Acropolis", "National Archaeological Museum"],
-        "Nightlife": ["Psiri", "Gazi District"],
-        "Beach": ["Vouliagmeni Beach", "Alimos Beach"],
-        "Adventure": ["Mount Lycabettus Hike"]
+        "Culture & Historical Exploration": ["Acropolis", "National Archaeological Museum"],
+        "Urban Entertainment & Nightlife": ["Psiri", "Gazi District"],
+        "Sports & Active Recreation": ["Vouliagmeni Sports & Active Recreation", "Alimos Sports & Active Recreation"],
+        "Nature & Outdoor Adventure": ["Mount Lycabettus Hike"]
     },
     "Copenhagen": {
-        "Culture": ["Tivoli Gardens", "The Little Mermaid"],
-        "Nightlife": ["Nyhavn", "Meatpacking District"],
-        "Adventure": ["Cycling Tours"]
+        "Culture & Historical Exploration": ["Tivoli Gardens", "The Little Mermaid"],
+        "Urban Entertainment & Nightlife": ["Nyhavn", "Meatpacking District"],
+        "Nature & Outdoor Adventure": ["Cycling Tours"]
     },
     "Zürich": {
-        "Culture": ["Kunsthaus", "Swiss National Museum"],
-        "Nightlife": ["Plaza", "Kanzlei Club"],
-        "Adventure": ["Swimming in Lake Zurich", "Hike to Uetliberg"]
+        "Culture & Historical Exploration": ["Kunsthaus", "Swiss National Museum"],
+        "Urban Entertainment & Nightlife": ["Plaza", "Kanzlei Club"],
+        "Nature & Outdoor Adventure": ["Swimming in Lake Zurich", "Hike to Uetliberg"]
     },
     "Antwerp": {
-        "Culture": ["Cathedral of Our Lady", "MAS Museum"],
-        "Nightlife": ["Het Zuid", "Eilandje"],
-        "Adventure": ["Scheldt River Cruise"]
+        "Culture & Historical Exploration": ["Cathedral of Our Lady", "MAS Museum"],
+        "Urban Entertainment & Nightlife": ["Het Zuid", "Eilandje"],
+        "Nature & Outdoor Adventure": ["Scheldt River Cruise"]
     },
     "Kraków": {
-        "Culture": ["Wawel Castle", "Main Market Square"],
-        "Nightlife": ["Kazimierz District", "Old Town Bars"],
-        "Adventure": ["Vistula River Walks"]
+        "Culture & Historical Exploration": ["Wawel Castle", "Main Market Square"],
+        "Urban Entertainment & Nightlife": ["Kazimierz District", "Old Town Bars"],
+        "Nature & Outdoor Adventure": ["Vistula River Walks"]
     },
     "Minsk": {
-        "Culture": ["National Opera and Ballet Theatre", "Victory Square"],
-        "Nightlife": ["Zybitskaya Street", "Nemiga Clubs"],
-        "Adventure": ["Gorky Park Activities"]
+        "Culture & Historical Exploration": ["National Opera and Ballet Theatre", "Victory Square"],
+        "Urban Entertainment & Nightlife": ["Zybitskaya Street", "Nemiga Clubs"],
+        "Nature & Outdoor Adventure": ["Gorky Park Activities"]
     },
     "Tallinn": {
-        "Culture": ["Toompea Castle", "Alexander Nevsky Cathedral"],
-        "Nightlife": ["Old Town Pubs", "Telliskivi Creative City"],
-        "Adventure": ["Seaside Promenade Walks"]
+        "Culture & Historical Exploration": ["Toompea Castle", "Alexander Nevsky Cathedral"],
+        "Urban Entertainment & Nightlife": ["Old Town Pubs", "Telliskivi Creative City"],
+        "Nature & Outdoor Adventure": ["Seaside Promenade Walks"]
     },
     "Helsinki": {
-        "Culture": ["Helsinki Cathedral", "Ateneum Art Museum"],
-        "Nightlife": ["Kallio District", "Punavuori Bars"],
-        "Adventure": ["Suomenlinna Island", "Baltic Sea Ferries"]
+        "Culture & Historical Exploration": ["Helsinki Cathedral", "Ateneum Art Museum"],
+        "Urban Entertainment & Nightlife": ["Kallio District", "Punavuori Bars"],
+        "Nature & Outdoor Adventure": ["Suomenlinna Island", "Baltic Sea Ferries"]
     },
     "Chisinau": {
-        "Culture": ["Stefan Cel Mare Park", "National Museum of History"],
-        "Nightlife": ["Z Lounge", "Eli-Pili"],
-        "Adventure": ["Valea Morilor Lake Walk"]
+        "Culture & Historical Exploration": ["Stefan Cel Mare Park", "National Museum of History"],
+        "Urban Entertainment & Nightlife": ["Z Lounge", "Eli-Pili"],
+        "Nature & Outdoor Adventure": ["Valea Morilor Lake Walk"]
     },
     "Belfast": {
-        "Culture": ["Titanic Belfast", "Ulster Museum"],
-        "Nightlife": ["Cathedral Quarter", "Laverys Bar"],
-        "Adventure": ["Cave Hill Hike"]
+        "Culture & Historical Exploration": ["Titanic Belfast", "Ulster Museum"],
+        "Urban Entertainment & Nightlife": ["Cathedral Quarter", "Laverys Bar"],
+        "Nature & Outdoor Adventure": ["Cave Hill Hike"]
     },
     "Vilnius": {
-        "Culture": ["Gediminas Tower", "Vilnius Old Town"],
-        "Nightlife": ["Užupis Bars", "Vilniaus Street"],
-        "Adventure": ["Hot Air Balloon Ride"]
+        "Culture & Historical Exploration": ["Gediminas Tower", "Vilnius Old Town"],
+        "Urban Entertainment & Nightlife": ["Užupis Bars", "Vilniaus Street"],
+        "Nature & Outdoor Adventure": ["Hot Air Balloon Ride"]
     },
     "Riga": {
-        "Culture": ["House of the Blackheads", "Riga Cathedral"],
-        "Nightlife": ["Old Town Bars", "Miera Iela District"],
-        "Adventure": ["Daugava River Cruise"]
+        "Culture & Historical Exploration": ["House of the Blackheads", "Riga Cathedral"],
+        "Urban Entertainment & Nightlife": ["Old Town Bars", "Miera Iela District"],
+        "Nature & Outdoor Adventure": ["Daugava River Cruise"]
     },
     "Zagreb": {
-        "Culture": ["Museum of Broken Relationships", "St. Mark's Church"],
-        "Nightlife": ["Tkalciceva Street", "Medika Club"],
-        "Adventure": ["Medvednica Mountain Hiking"]
+        "Culture & Historical Exploration": ["Museum of Broken Relationships", "St. Mark's Church"],
+        "Urban Entertainment & Nightlife": ["Tkalciceva Street", "Medika Club"],
+        "Nature & Outdoor Adventure": ["Medvednica Mountain Hiking"]
     },
     "Sarajevo": {
-        "Culture": ["Baščaršija", "Latin Bridge"],
-        "Nightlife": ["Ferhadija Street Bars", "Sloga Club"],
-        "Adventure": ["Cable Car to Trebević"]
+        "Culture & Historical Exploration": ["Baščaršija", "Latin Bridge"],
+        "Urban Entertainment & Nightlife": ["Ferhadija Street Bars", "Sloga Club"],
+        "Nature & Outdoor Adventure": ["Cable Car to Trebević"]
     },
     "Skopje": {
-        "Culture": ["Old Bazaar", "Skopje Fortress"],
-        "Nightlife": ["Debar Maalo", "Bohemian Street"],
-        "Adventure": ["Vodno Mountain Hike"]
+        "Culture & Historical Exploration": ["Old Bazaar", "Skopje Fortress"],
+        "Urban Entertainment & Nightlife": ["Debar Maalo", "Bohemian Street"],
+        "Nature & Outdoor Adventure": ["Vodno Mountain Hike"]
     },
     "Tbilisi": {
-        "Culture": ["Narikala Fortress", "Holy Trinity Cathedral"],
-        "Nightlife": ["Fabrika", "Rustaveli Avenue Bars"],
-        "Adventure": ["Sulfur Baths", "Mtatsminda Park"]
+        "Culture & Historical Exploration": ["Narikala Fortress", "Holy Trinity Cathedral"],
+        "Urban Entertainment & Nightlife": ["Fabrika", "Rustaveli Avenue Bars"],
+        "Nature & Outdoor Adventure": ["Sulfur Baths", "Mtatsminda Park"]
     },
     "Baku": {
-        "Culture": ["Maiden Tower", "Heydar Aliyev Center"],
-        "Nightlife": ["Nizami Street", "Port Baku Clubs"],
-        "Adventure": ["Caspian Sea Boulevard Walks"],
-        "Beach": ["Shikhov Beach", "Bilgah Beach"]
+        "Culture & Historical Exploration": ["Maiden Tower", "Heydar Aliyev Center"],
+        "Urban Entertainment & Nightlife": ["Nizami Street", "Port Baku Clubs"],
+        "Nature & Outdoor Adventure": ["Caspian Sea Boulevard Walks"],
+        "Sports & Active Recreation": ["Shikhov Sports & Active Recreation", "Bilgah Sports & Active Recreation"]
     },
     "Dublin": {
-        "Culture": ["Trinity College & Book of Kells", "Dublin Castle"],
-        "Nightlife": ["Temple Bar", "Camden Street"],
-        "Adventure": ["Phoenix Park Cycling"]
+        "Culture & Historical Exploration": ["Trinity College & Book of Kells", "Dublin Castle"],
+        "Urban Entertainment & Nightlife": ["Temple Bar", "Camden Street"],
+        "Nature & Outdoor Adventure": ["Phoenix Park Cycling"]
     },
     "Bristol": {
-        "Culture": ["SS Great Britain", "Bristol Museum"],
-        "Nightlife": ["Stokes Croft", "Harbourside Bars"],
-        "Adventure": ["Clifton Suspension Bridge Walk"]
+        "Culture & Historical Exploration": ["SS Great Britain", "Bristol Museum"],
+        "Urban Entertainment & Nightlife": ["Stokes Croft", "Harbourside Bars"],
+        "Nature & Outdoor Adventure": ["Clifton Suspension Bridge Walk"]
     },
     "Cardiff": {
-        "Culture": ["Cardiff Castle", "National Museum Cardiff"],
-        "Nightlife": ["Mill Lane", "Womanby Street"],
-        "Adventure": ["Cardiff Bay Kayaking"]
+        "Culture & Historical Exploration": ["Cardiff Castle", "National Museum Cardiff"],
+        "Urban Entertainment & Nightlife": ["Mill Lane", "Womanby Street"],
+        "Nature & Outdoor Adventure": ["Cardiff Bay Kayaking"]
     },
     "Manchester": {
-        "Culture": ["Manchester Art Gallery", "Science and Industry Museum"],
-        "Nightlife": ["Northern Quarter", "Deansgate Locks"],
-        "Adventure": ["Canal Walks", "Heaton Park Boating"]
+        "Culture & Historical Exploration": ["Manchester Art Gallery", "Science and Industry Museum"],
+        "Urban Entertainment & Nightlife": ["Northern Quarter", "Deansgate Locks"],
+        "Nature & Outdoor Adventure": ["Canal Walks", "Heaton Park Boating"]
     },
     "Leeds": {
-        "Culture": ["Royal Armouries Museum", "Kirkstall Abbey"],
-        "Nightlife": ["Call Lane", "Greek Street"],
-        "Adventure": ["Roundhay Park Activities"]
+        "Culture & Historical Exploration": ["Royal Armouries Museum", "Kirkstall Abbey"],
+        "Urban Entertainment & Nightlife": ["Call Lane", "Greek Street"],
+        "Nature & Outdoor Adventure": ["Roundhay Park Activities"]
     },
     "Liverpool": {
-        "Culture": ["The Beatles Story", "Liverpool Cathedral"],
-        "Nightlife": ["Mathew Street", "Concert Square"],
-        "Adventure": ["Mersey Ferry Ride"]
+        "Culture & Historical Exploration": ["The Beatles Story", "Liverpool Cathedral"],
+        "Urban Entertainment & Nightlife": ["Mathew Street", "Concert Square"],
+        "Nature & Outdoor Adventure": ["Mersey Ferry Ride"]
     },
     "Newcastle upon Tyne": {
-        "Culture": ["BALTIC Centre", "St. Nicholas' Cathedral"],
-        "Nightlife": ["Bigg Market", "The Ouseburn"],
-        "Adventure": ["Tyne Bridge Walk"]
+        "Culture & Historical Exploration": ["BALTIC Centre", "St. Nicholas' Cathedral"],
+        "Urban Entertainment & Nightlife": ["Bigg Market", "The Ouseburn"],
+        "Nature & Outdoor Adventure": ["Tyne Bridge Walk"]
     },
     "Sheffield": {
-        "Culture": ["Millennium Gallery", "Kelham Island Museum"],
-        "Nightlife": ["Division Street", "Ecclesall Road"],
-        "Adventure": ["Peak District Excursions"]
+        "Culture & Historical Exploration": ["Millennium Gallery", "Kelham Island Museum"],
+        "Urban Entertainment & Nightlife": ["Division Street", "Ecclesall Road"],
+        "Nature & Outdoor Adventure": ["Peak District Excursions"]
     },
     "Nottingham": {
-        "Culture": ["Nottingham Castle", "Galleries of Justice Museum"],
-        "Nightlife": ["Hockley", "Lace Market"],
-        "Adventure": ["Sherwood Forest Trips"]
+        "Culture & Historical Exploration": ["Nottingham Castle", "Galleries of Justice Museum"],
+        "Urban Entertainment & Nightlife": ["Hockley", "Lace Market"],
+        "Nature & Outdoor Adventure": ["Sherwood Forest Trips"]
     },
     "Leicester": {
-        "Culture": ["King Richard III Visitor Centre", "New Walk Museum"],
-        "Nightlife": ["Granby Street", "Highcross Area"],
-        "Adventure": ["Bradgate Park Hike"]
+        "Culture & Historical Exploration": ["King Richard III Visitor Centre", "New Walk Museum"],
+        "Urban Entertainment & Nightlife": ["Granby Street", "Highcross Area"],
+        "Nature & Outdoor Adventure": ["Bradgate Park Hike"]
     },
     "Bradford": {
-        "Culture": ["National Science and Media Museum", "Cartwright Hall"],
-        "Nightlife": ["Sunbridge Wells", "North Parade Bars"]
+        "Culture & Historical Exploration": ["National Science and Media Museum", "Cartwright Hall"],
+        "Urban Entertainment & Nightlife": ["Sunbridge Wells", "North Parade Bars"]
     },
     "Coventry": {
-        "Culture": ["Coventry Cathedral", "Transport Museum"],
-        "Nightlife": ["FarGo Village", "City Centre Pubs"]
+        "Culture & Historical Exploration": ["Coventry Cathedral", "Transport Museum"],
+        "Urban Entertainment & Nightlife": ["FarGo Village", "City Centre Pubs"]
     },
     "Birmingham": {
-        "Culture": ["Birmingham Museum & Art Gallery", "Library of Birmingham"],
-        "Nightlife": ["Broad Street", "Digbeth"],
-        "Adventure": ["Canal Network Tours"]
+        "Culture & Historical Exploration": ["Birmingham Museum & Art Gallery", "Library of Birmingham"],
+        "Urban Entertainment & Nightlife": ["Broad Street", "Digbeth"],
+        "Nature & Outdoor Adventure": ["Canal Network Tours"]
     },
     "Glasgow": {
-        "Culture": ["Kelvingrove Art Gallery", "Glasgow Cathedral"],
-        "Nightlife": ["Sauchiehall Street", "Ashton Lane"],
-        "Adventure": ["Glasgow Green Walks"]
+        "Culture & Historical Exploration": ["Kelvingrove Art Gallery", "Glasgow Cathedral"],
+        "Urban Entertainment & Nightlife": ["Sauchiehall Street", "Ashton Lane"],
+        "Nature & Outdoor Adventure": ["Glasgow Green Walks"]
     },
     "Edinburgh": {
-        "Culture": ["Edinburgh Castle", "National Museum of Scotland"],
-        "Nightlife": ["Grassmarket", "Cowgate"],
-        "Adventure": ["Arthur's Seat Hike"]
+        "Culture & Historical Exploration": ["Edinburgh Castle", "National Museum of Scotland"],
+        "Urban Entertainment & Nightlife": ["Grassmarket", "Cowgate"],
+        "Nature & Outdoor Adventure": ["Arthur's Seat Hike"]
     },
     "Ljubljana": {
-        "Culture": ["Ljubljana Castle", "National Gallery"],
-        "Nightlife": ["Metelkova", "Ljubljanica Riverside Bars"],
-        "Adventure": ["Tivoli Park Cycling"]
+        "Culture & Historical Exploration": ["Ljubljana Castle", "National Gallery"],
+        "Urban Entertainment & Nightlife": ["Metelkova", "Ljubljanica Riverside Bars"],
+        "Nature & Outdoor Adventure": ["Tivoli Park Cycling"]
     },
     "Tirana": {
-        "Culture": ["Et'hem Bey Mosque", "Bunk'Art Museum"],
-        "Nightlife": ["Blloku District", "Sky Club"],
-        "Adventure": ["Dajti Mountain Cable Car"]
+        "Culture & Historical Exploration": ["Et'hem Bey Mosque", "Bunk'Art Museum"],
+        "Urban Entertainment & Nightlife": ["Blloku District", "Sky Club"],
+        "Nature & Outdoor Adventure": ["Dajti Mountain Cable Car"]
     }
 }
 
